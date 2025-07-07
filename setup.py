@@ -3,11 +3,11 @@ from setuptools import setup, find_packages
 
 HERE = pathlib.Path(__file__).parent
 
-VERSION = '1.2.0.14'
+VERSION = '1.2.0.15'
 PACKAGE_NAME = 'epiinfo'
 AUTHOR = 'John Copeland'
 AUTHOR_EMAIL = 'ita3@cdc.gov'
-URL = 'https://github.com/Epi-Info/Epi-Info-Python-Package'
+URL = 'https://github.com/Epi-Info/epiinfo'
 
 LICENSE = 'Apache License 2.0'
 DESCRIPTION = 'Epi Info: Import and analyze data'

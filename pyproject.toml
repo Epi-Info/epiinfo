@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "epiinfo"
-version = "1.2.0.14"
+version = "1.2.0.15"
 authors = [
   { name="John Copeland" },
 ]
@@ -22,7 +22,7 @@ dependencies = [
 license = {text = "Apache License 2.0"}
 
 [project.urls]
-Homepage = "https://github.com/Epi-Info/Epi-Info-Python-Package"
+Homepage = "https://github.com/Epi-Info/epiinfo"
 
 [tool.distutils.bdist_wheel]
 universal = true
