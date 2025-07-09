@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "epiinfo"
-version = "1.2.0.15"
+version = "1.2.0.16"
 authors = [
   { name="John Copeland" },
 ]
