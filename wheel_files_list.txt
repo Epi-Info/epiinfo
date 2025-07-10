@@ -1,0 +1,9 @@
+Files in dist\epiinfo-1.2.0.16-py2.py3-none-any.whl:
+--------------------------------------------------
+epiinfo-1.2.0.16.dist-info/METADATA
+epiinfo-1.2.0.16.dist-info/RECORD
+epiinfo-1.2.0.16.dist-info/WHEEL
+epiinfo-1.2.0.16.dist-info/licenses/LICENSE
+epiinfo-1.2.0.16.dist-info/top_level.txt
+
+Total files: 5
