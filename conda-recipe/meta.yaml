@@ -1,0 +1,50 @@
+{% set data = load_setup_py_data() %}
+
+package:
+  name: epiinfo
+  version: "1.2.0.18"
+
+source:
+  path: ..
+
+build:
+  number: 0
+  script: python -m pip install . -vv
+  noarch: python
+
+requirements:
+  host:
+    - python >=3.10
+    - pip
+    - setuptools
+    - wheel
+  run:
+    - python >=3.10
+    - scipy
+    - ijson
+    - pycryptodome
+
+test:
+  imports:
+    - epiinfo
+    - epiinfo.Frequencies
+    - epiinfo.Means
+    - epiinfo.TablesAnalysis
+    - epiinfo.LinearRegression
+    - epiinfo.LogisticRegression
+
+about:
+  home: https://github.com/Epi-Info/epiinfo
+  license: Apache-2.0
+  license_file: LICENSE
+  summary: 'Epi Info: Import and analyze data'
+  description: |
+    A Python package for epidemiological data analysis and statistical computations.
+    Provides tools for frequency analysis, statistical means, tables analysis, 
+    regression analysis, and data import/export capabilities.
+  doc_url: https://github.com/Epi-Info/epiinfo
+  dev_url: https://github.com/Epi-Info/epiinfo
+
+extra:
+  recipe-maintainers:
+    - cdc-dpbrown
