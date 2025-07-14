@@ -26,73 +26,27 @@ jobs:
           python-version: ${{ matrix.python-version }}
           channels: conda-forge,defaults
           channel-priority: strict
+          activate-environment: build-env
           
       - name: Install conda-build and anaconda-client
         shell: bash -l {0}
         run: |
-          conda install conda-build anaconda-client
+          conda config --set auto_activate_base false
+          conda install -y conda-build anaconda-client
           
-      - name: Create conda recipe directory
+      - name: Verify conda recipe exists
         shell: bash -l {0}
         run: |
-          mkdir -p conda-recipe
-          
-      - name: Create meta.yaml
-        shell: bash -l {0}
-        run: |
-          cat > conda-recipe/meta.yaml << 'EOF'
-          {% set data = load_setup_py_data() %}
-          
-          package:
-            name: epiinfo
-            version: {{ data.get('version') }}
-          
-          source:
-            path: ..
-          
-          build:
-            number: 0
-            script: python -m pip install . -vv
-            noarch: python
-          
-          requirements:
-            host:
-              - python >=3.10
-              - pip
-              - setuptools
-              - wheel
-            run:
-              - python >=3.10
-              - scipy
-              - ijson
-              - pycryptodome
-          
-          test:
-            imports:
-              - epiinfo
-              - epiinfo.Frequencies
-              - epiinfo.Means
-              - epiinfo.TablesAnalysis
-          
-          about:
-            home: https://github.com/Epi-Info/epiinfo
-            license: Apache-2.0
-            license_file: LICENSE
-            summary: 'Epi Info: Import and analyze data'
-            description: |
-              A Python package for epidemiological data analysis and statistical computations.
-            doc_url: https://github.com/Epi-Info/epiinfo
-            dev_url: https://github.com/Epi-Info/epiinfo
-          
-          extra:
-            recipe-maintainers:
-              - johncopeland
-          EOF
+          if [ ! -f conda-recipe/meta.yaml ]; then
+            echo "Error: conda-recipe/meta.yaml not found"
+            exit 1
+          fi
+          cat conda-recipe/meta.yaml
           
       - name: Build conda package
         shell: bash -l {0}
         run: |
-          conda-build conda-recipe --python ${{ matrix.python-version }}
+          conda-build conda-recipe --python ${{ matrix.python-version }} --no-anaconda-upload
           
       - name: Upload to Anaconda.org
         shell: bash -l {0}
@@ -100,7 +54,10 @@ jobs:
           ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
         run: |
           if [ -n "$ANACONDA_API_TOKEN" ]; then
-            anaconda -t $ANACONDA_API_TOKEN upload --force $(conda-build conda-recipe --python ${{ matrix.python-version }} --output)
+            PACKAGE_PATH=$(conda-build conda-recipe --python ${{ matrix.python-version }} --output)
+            echo "Uploading package: $PACKAGE_PATH"
+            anaconda -t $ANACONDA_API_TOKEN upload --force "$PACKAGE_PATH"
           else
             echo "ANACONDA_TOKEN not set, skipping upload"
+            echo "Package built successfully but not uploaded"
           fi
